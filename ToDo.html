@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h2>To-Do List</h2>
+
+  <input type="text" id="task">
+  <button onclick="add()">Add</button>
+
+  <p>Pending: <b id="p">0</b> | Completed: <b id="c">0</b></p>
+
+  <ul id="list"></ul>
+
+  <script>
+    let p = 0, c = 0;
+
+    function add() {
+      let input = document.getElementById("task");
+      if (input.value == "") return;
+
+      let li = document.createElement("li");
+      li.innerHTML = `
+        <input type="checkbox" onclick="check(this)">
+        ${input.value}
+        <button onclick="del(this)">Delete</button>
+      `;
+
+      document.getElementById("list").appendChild(li);
+      p++;
+      show();
+      input.value = "";
+    }
+
+    function check(box) {
+      if (box.checked) { p--; c++; } 
+      else { p++; c--; }
+      show();
+    }
+
+    function del(btn) {
+      let box = btn.parentElement.querySelector("input");
+      if (box.checked) { c--; } 
+      else { p--; }
+      btn.parentElement.remove();
+      show();
+    }
+
+    function show() {
+      document.getElementById("p").innerText = p;
+      document.getElementById("c").innerText = c;
+    }
+  </script>
+
+</body>
+</html>
