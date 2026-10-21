@@ -7,47 +7,33 @@
   <input type="text" id="task">
   <button onclick="add()">Add</button>
 
-  <p>Pending: <b id="p">0</b> | Completed: <b id="c">0</b></p>
+  <p>Pending: <b id="p">0</b> Completed: <b id="c">0</b></p>
 
   <ul id="list"></ul>
 
   <script>
-    let p = 0, c = 0;
-
     function add() {
       let input = document.getElementById("task");
       if (input.value == "") return;
 
+      // New item list me add karo
       let li = document.createElement("li");
       li.innerHTML = `
-        <input type="checkbox" onclick="check(this)">
-        ${input.value}
-        <button onclick="del(this)">Delete</button>
+        <input type="checkbox" onclick="update()"> ${input.value}
+        <button onclick="this.parentElement.remove(); update();">Delete</button>
       `;
-
       document.getElementById("list").appendChild(li);
-      p++;
-      show();
+
       input.value = "";
+      update();
     }
 
-    function check(box) {
-      if (box.checked) { p--; c++; } 
-      else { p++; c--; }
-      show();
-    }
+    function update() {
+      let total = document.querySelectorAll('#list li').length;
+      let completed = document.querySelectorAll('#list input:checked').length;
 
-    function del(btn) {
-      let box = btn.parentElement.querySelector("input");
-      if (box.checked) { c--; } 
-      else { p--; }
-      btn.parentElement.remove();
-      show();
-    }
-
-    function show() {
-      document.getElementById("p").innerText = p;
-      document.getElementById("c").innerText = c;
+      document.getElementById("c").innerText = completed;
+      document.getElementById("p").innerText = total - completed;
     }
   </script>
 
